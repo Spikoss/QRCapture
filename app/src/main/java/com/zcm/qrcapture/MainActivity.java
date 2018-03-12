@@ -2,12 +2,16 @@ package com.zcm.qrcapture;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.zcm.google.zxing.activity.CaptureActivity;
+import com.zcm.google.zxing.encoding.EncodingHandler;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -29,14 +33,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CaptureActivity.class));
-
             }
         });
         findViewById(R.id.capFragment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, FragmentActivity.class));
-
+            }
+        });
+        findViewById(R.id.createQR).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = findViewById(R.id.et_create);
+                Bitmap bitmap = EncodingHandler.createQRCode(editText.getText().toString(),200,200,null);
+                ImageView image = findViewById(R.id.iv_createQR);
+                image.setImageBitmap(bitmap);
             }
         });
     }

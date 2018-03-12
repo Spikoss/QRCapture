@@ -21,6 +21,26 @@
         android:text="跳转fragment获取二维码"/>
 
 
+    <EditText
+        android:layout_marginTop="30dp"
+
+        android:id="@+id/et_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="input something to create QR"/>
+    <Button
+        android:id="@+id/createQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="生成二维码"/>
+
+    <ImageView
+        android:id="@+id/iv_createQR"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"/>
+
+
 
 
 </LinearLayout>

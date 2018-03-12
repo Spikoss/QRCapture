@@ -66,7 +66,7 @@ public class CaptureActivity extends Activity implements Callback,
         // ViewUtil.addTopView(getApplicationContext(), this,
         // R.string.scan_card);
         CameraManager.init(getApplication());
-        viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_content);
+        viewfinderView =  findViewById(R.id.viewfinder_content);
         cancelScanButton = this.findViewById(R.id.scanner_toolbar_back);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
@@ -81,7 +81,7 @@ public class CaptureActivity extends Activity implements Callback,
                 CaptureActivity.SCAN_RESULT_ACTION);
         registerReceiver(broadcast, intentFilter);
 
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.scanner_view);
+        SurfaceView surfaceView = findViewById(R.id.scanner_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);
@@ -167,6 +167,7 @@ public class CaptureActivity extends Activity implements Callback,
             resultIntent.putExtras(bundle);
             this.setResult(RESULT_OK, resultIntent);*/
             sendBroadcastToActivity(resultString);
+
         }
       // finish();
     }
