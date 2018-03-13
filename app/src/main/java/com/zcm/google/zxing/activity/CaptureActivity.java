@@ -280,15 +280,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback,
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         startActivity(intent);
     }
-    private void restartScan(){
 
-        viewfinderView.setVisibility(View.VISIBLE);
-        SurfaceView surfaceView =  findViewById(R.id.scanner_view);
-        SurfaceHolder surfaceHolder = surfaceView.getHolder();
-        initCamera(surfaceHolder);
-        initBeepSound();
-        vibrate = true;
-    }
 
     public class MyBroadcast extends BroadcastReceiver {
         @Override
@@ -302,7 +294,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback,
 
                     Log.i("CaptureActivity===", str);
                     if (!str.contains("123") ) {
-                        Toast.makeText(CaptureActivity.this, "扫码失败", Toast.LENGTH_SHORT).show();
+                        //判断二维码结果中是否包含123，没有则扫码失败
                         toastDialog();
                     } else {
                         Toast.makeText(CaptureActivity.this, "扫码成功：" + str, Toast.LENGTH_SHORT).show();
@@ -315,12 +307,14 @@ public class CaptureActivity extends AppCompatActivity implements Callback,
 
     private void toastDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("12345")
+        builder.setMessage("扫码失败")
                 .setPositiveButton("ok",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                restartScan();
+                             if (handler != null){
+                                 handler.restartPreviewAndDecode();
+                             }
                             }
                         })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {

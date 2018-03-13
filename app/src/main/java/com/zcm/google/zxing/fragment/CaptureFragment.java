@@ -1,7 +1,9 @@
 package com.zcm.google.zxing.fragment;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
@@ -308,8 +310,8 @@ public class CaptureFragment extends Fragment implements Callback,
 
 
                     Log.i("CaptureFragment===", str);
-                    if (TextUtils.isEmpty(str)) {
-                        Toast.makeText(getActivity(), "扫码失败", Toast.LENGTH_SHORT).show();
+                    if (!str.contains("123") ) {
+                        toastDialog();
                     } else {
                         Toast.makeText(getActivity(), "扫码成功：" + str, Toast.LENGTH_SHORT).show();
                     }
@@ -317,5 +319,30 @@ public class CaptureFragment extends Fragment implements Callback,
                 }
             }
         }
+    }
+
+    private void toastDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("扫码失败")
+                .setPositiveButton("ok",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (handler != null){
+                                    handler.restartPreviewAndDecode();
+                                }
+                            }
+                        })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (handler != null){
+                            handler.restartPreviewAndDecode();
+                        }
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.show();
     }
 }
