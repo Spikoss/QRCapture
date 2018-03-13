@@ -1,6 +1,8 @@
 package com.zcm.qrcapture;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -67,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
     @OnShowRationale(Manifest.permission.CAMERA)
     void showCamera(final PermissionRequest request) {
         //弹窗解释需要权限的理由
+        new AlertDialog.Builder(this)
+                .setMessage("申请相机权限")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //再次执行请求
+                        request.proceed();// 提示用户权限使用的对话框
+                    }
+                })
+                .show();
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
