@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.zcm.google.zxing.activity.CaptureActivity;
 import com.zcm.google.zxing.encoding.EncodingHandler;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @NeedsPermission(Manifest.permission.CAMERA)
     void needCamera() {
+        //需要权限去做什么
     }
 
     @Override
@@ -64,13 +66,16 @@ public class MainActivity extends AppCompatActivity {
 
     @OnShowRationale(Manifest.permission.CAMERA)
     void showCamera(final PermissionRequest request) {
+        //弹窗解释需要权限的理由
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     void deniedCamera() {
+        Toast.makeText(MainActivity.this,"拒绝权限",Toast.LENGTH_SHORT).show();
     }
 
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     void neverAskCamera() {
+        Toast.makeText(MainActivity.this,"别再问我了",Toast.LENGTH_SHORT).show();
     }
 }
