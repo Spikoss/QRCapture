@@ -101,14 +101,14 @@ public final class CaptureActivityHandler extends Handler {
                 break;
             case R.id.return_scan_result:
                 Log.d(TAG, "Got return scan result message");
-                handlerInterface.resturnScanResult(
+                handlerInterface.returnScanResult(
                         DecodeHandlerInterface.RESULT_STATE_OK, (Intent) message.obj);
                 break;
             case R.id.launch_product_query:
                 Log.d(TAG, "Got product query message");
                 String url = (String) message.obj;
 
-                handlerInterface.launchProductQuary(url);
+                handlerInterface.launchProductQuery(url);
                 break;
         }
     }

@@ -10,17 +10,17 @@ import com.zcm.google.zxing.view.ViewfinderView;
 
 public interface DecodeHandlerInterface {
 
-    public static final int RESULT_STATE_OK = 0;
+     int RESULT_STATE_OK = 0;
 
-    public void drawViewfinder();
+     void drawViewfinder();
 
-    public ViewfinderView getViewfinderView();
+     ViewfinderView getViewfinderView();
 
-    public Handler getHandler();
+     Handler getHandler();
 
-    public void handleDecode(Result result, Bitmap barcode);
+     void handleDecode(Result result, Bitmap barcode);
 
-    public void resturnScanResult(int resultCode, Intent data);
+     void returnScanResult(int resultCode, Intent data);
 
-    public void launchProductQuary(String url);
+     void launchProductQuery(String url);
 }

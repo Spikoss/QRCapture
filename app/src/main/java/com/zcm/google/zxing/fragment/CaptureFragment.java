@@ -45,13 +45,13 @@ import java.util.Vector;
 public class CaptureFragment extends Fragment implements Callback,
         DecodeHandlerInterface {
 
-    public static CaptureFragment newInstance() {
+    /*public static CaptureFragment newInstance() {
         Bundle bundle = new Bundle();
         CaptureFragment fragment = new CaptureFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
-
+*/
 
     public static final String SCAN_RESULT_ACTION = "com.zxing.fragment.ACTION_SCAN_RESULT";
 
@@ -82,7 +82,7 @@ public class CaptureFragment extends Fragment implements Callback,
         // ViewUtil.addTopView(getApplicationContext(), this,
         // R.string.scan_card);
         CameraManager.init(getActivity());
-        viewfinderView = (ViewfinderView) view
+        viewfinderView =  view
                 .findViewById(R.id.viewfinder_content);
         cancelScanButton = view.findViewById(R.id.scanner_toolbar_back);
         hasSurface = false;
@@ -284,13 +284,13 @@ public class CaptureFragment extends Fragment implements Callback,
      * String scanResult = data.getExtras().getString("result");
      */
     @Override
-    public void resturnScanResult(int resultCode, Intent data) {
+    public void returnScanResult(int resultCode, Intent data) {
         Toast.makeText(getActivity(), data.getStringExtra("result"), Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void launchProductQuary(String url) {
+    public void launchProductQuery(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         startActivity(intent);

@@ -1,9 +1,9 @@
 package com.zcm.google.zxing.activity;
 
-
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -41,7 +42,7 @@ import java.util.Vector;
 /**
  * Initial the camera
  */
-public class CaptureActivity extends Activity implements Callback,
+public class CaptureActivity extends AppCompatActivity implements Callback,
         DecodeHandlerInterface {
 
 
@@ -70,13 +71,13 @@ public class CaptureActivity extends Activity implements Callback,
         cancelScanButton = this.findViewById(R.id.scanner_toolbar_back);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+        broadcast = new MyBroadcast();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        broadcast = new MyBroadcast();
         IntentFilter intentFilter = new IntentFilter(
                 CaptureActivity.SCAN_RESULT_ACTION);
         registerReceiver(broadcast, intentFilter);
@@ -266,18 +267,27 @@ public class CaptureActivity extends Activity implements Callback,
     };
 
     @Override
-    public void resturnScanResult(int resultCode, Intent data) {
+    public void returnScanResult(int resultCode, Intent data) {
 
         setResult(resultCode, data);
         finish();
     }
 
     @Override
-    public void launchProductQuary(String url) {
+    public void launchProductQuery(String url) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         startActivity(intent);
+    }
+    private void restartScan(){
+
+        viewfinderView.setVisibility(View.VISIBLE);
+        SurfaceView surfaceView =  findViewById(R.id.scanner_view);
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+        initCamera(surfaceHolder);
+        initBeepSound();
+        vibrate = true;
     }
 
     public class MyBroadcast extends BroadcastReceiver {
@@ -291,8 +301,9 @@ public class CaptureActivity extends Activity implements Callback,
 
 
                     Log.i("CaptureActivity===", str);
-                    if (TextUtils.isEmpty(str) ) {
+                    if (!str.contains("123") ) {
                         Toast.makeText(CaptureActivity.this, "扫码失败", Toast.LENGTH_SHORT).show();
+                        toastDialog();
                     } else {
                         Toast.makeText(CaptureActivity.this, "扫码成功：" + str, Toast.LENGTH_SHORT).show();
                     }
@@ -300,5 +311,26 @@ public class CaptureActivity extends Activity implements Callback,
                 }
             }
         }
+    }
+
+    private void toastDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("12345")
+                .setPositiveButton("ok",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                restartScan();
+                            }
+                        })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialog.show();
     }
 }
